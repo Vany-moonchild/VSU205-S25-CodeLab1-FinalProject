@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class ObstacleSpawner : BaseSpawner
 {
+   
+   
    void Start()
    {
       //start repeating the spawn action 
