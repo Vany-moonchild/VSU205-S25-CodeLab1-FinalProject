@@ -73,13 +73,13 @@ public class HighscoreTable : MonoBehaviour
         entryTransform.Find("scoreText").GetComponent<TMP_Text>().text = highscoreEntry.score.ToString();
         entryTransform.Find("nameText").GetComponent<TMP_Text>().text = highscoreEntry.name;
 
-        entryTransform.Find("background").gameObject.SetActive(rank % 2 == 1);
+       entryTransform.Find("background").gameObject.SetActive(rank % 2 == 1);
 
         if (rank == 1)
         {
-            entryTransform.Find("posText").GetComponent<TMP_Text>().color = Color.green;
-            entryTransform.Find("nameText").GetComponent<TMP_Text>().color = Color.green;
-            entryTransform.Find("scoreText").GetComponent<TMP_Text>().color = Color.green;
+            entryTransform.Find("posText").GetComponent<TMP_Text>().color = Color.blue;
+            entryTransform.Find("nameText").GetComponent<TMP_Text>().color = Color.blue;
+            entryTransform.Find("scoreText").GetComponent<TMP_Text>().color = Color.blue;
         }
 
         transformList.Add(entryTransform);
