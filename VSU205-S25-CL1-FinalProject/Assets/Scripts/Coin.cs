@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
+
+    //public float rotationSpeed = 10f;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -11,7 +14,8 @@ public class Coin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //rotate the coin on screen 
+        //transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime, Space.World);
     }
 
     void OnTriggerEnter(Collider other)
@@ -24,7 +28,13 @@ public class Coin : MonoBehaviour
             Debug.Log("Coin Collected");
             
             //Remove the coin after its been collected
-            Destroy(gameObject);
+            //Destroy(gameObject); 
+            
+            gameObject.SetActive(false);
+            
+            //the coin should be returned to the pool                                                       // Return the coin to the pool
+            CoinPool.instance.Push(gameObject);
+            
         }
     }
     

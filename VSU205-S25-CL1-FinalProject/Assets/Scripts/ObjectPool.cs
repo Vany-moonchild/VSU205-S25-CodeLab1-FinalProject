@@ -7,10 +7,25 @@ using UnityEngine;
 //can not be implemented, must be subclassed to be used
 public abstract class ObjectPool : MonoBehaviour
 {
+    //static instance to hold the singleton reference 
+    public static ObjectPool instance;
+    
+    
     //Stack for holding old GameObjects
     //LIFO - Last In First Out
     protected Stack<GameObject> pool = new Stack<GameObject>();
 
+    // Ensure the instance is properly set up
+    protected virtual void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this; // Set the instance to this object
+        }
+    }
+
+    
+    
     //Get a GameObject
     public GameObject Get()
     {

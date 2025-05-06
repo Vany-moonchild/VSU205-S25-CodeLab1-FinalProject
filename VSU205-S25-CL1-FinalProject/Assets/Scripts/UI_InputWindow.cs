@@ -1,13 +1,7 @@
 using UnityEngine;
 
-public class Obstacle : MonoBehaviour
+public class UI_InputWindow : MonoBehaviour
 {
-    
-    
-    //where to recycle the obstacle
-    private const float Max_X = 10; 
-    
-    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

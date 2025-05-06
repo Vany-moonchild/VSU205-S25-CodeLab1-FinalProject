@@ -23,8 +23,13 @@ public class CoinSpawner : BaseSpawner
         
         //altering the height of the coin prefab
        spawnPosition = new Vector3(spawnPosition.x, randomY, spawnPosition.z);
+
+       GameObject coin = CoinPool.instance.Get();
+       coin.transform.position = spawnPosition;
+       coin.transform.rotation = coinRotation;
+       coin.SetActive(true);
         
-        
-        SpawnObject(coinRotation);
+        SpawnObject(coin, coinRotation);
+        // SpawnObject(coin);
     }
 }
