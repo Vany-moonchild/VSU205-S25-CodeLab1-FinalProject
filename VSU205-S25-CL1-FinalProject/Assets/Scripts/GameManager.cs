@@ -7,6 +7,14 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     #region Variables
+    public static GameManager instance;
+    public HighscoreTable highscoreTable;
+    
+
+    private string input;
+    public ReadInput readInput;
+    public string playerName;
+    
     public GameObject gameOverPanel;
     public TMP_Text scoreText;
     public Button restartButton;
@@ -15,12 +23,14 @@ public class GameManager : MonoBehaviour
     private int collectableScore = 0;
     private float timeAlive;
     public bool isGameOver;
+
+    public int finalScore;
     
     #endregion
     
     # region Singleton
     //the static instance that holds the sole object of this singleton - singleton for global instance
-    public static GameManager instance;
+
     
     //better for when using singletons
     void Awake()
@@ -49,6 +59,8 @@ public class GameManager : MonoBehaviour
         timeAlive = 0f;
         isGameOver = false;
         gameOverPanel.SetActive(false);
+        
+        
         UpdateScore();
         
         
@@ -68,6 +80,20 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public void GetInfo()
+    {
+        //reference ReadInput and get the player's name 
+        if (readInput != null)
+        {
+            playerName = readInput.GetInputName();
+            Debug.Log("Retrieved Player Name: " + playerName);
+        }
+        else
+        {
+            Debug.LogWarning("ReadInput script not found in the scene!!");
+        }
+    }
+    
     public void AddScore(int amount)
     {
         collectableScore += amount;
@@ -83,10 +109,34 @@ public class GameManager : MonoBehaviour
         
         //show the gameover screen
         gameOverPanel.SetActive(true);
+
+        Debug.Log("The Final Score is: " + finalScore);
+        
         
         //TODO: Have the name panel show up so player can input name and then it shows the highscore list
     }
 
+
+    public void PlayerInputsName()
+    {
+        GetInfo();
+        Debug.Log("Got the Player Name: " + playerName);
+        
+        //once you have player name add it to the HighscoreTable 
+        
+        Debug.Log("final score: "+ finalScore);
+
+        HighscoreTable.instance.AddHighScoreEntry(finalScore, playerName);
+        
+        
+        //once you have theplayer name hide the panel 
+        gameOverPanel.SetActive(false);
+        
+        
+    }
+    
+    
+    
     void UpdateScore()
     {
         int survivalScore = Mathf.FloorToInt(timeAlive * scoreMultiplier);
@@ -94,8 +144,10 @@ public class GameManager : MonoBehaviour
         //add time/survival score and coin score to the screen
         scoreText.text = "Survival Score: " + survivalScore + " | Coins: " + collectableScore;
 
+        finalScore = survivalScore;
+        Debug.Log("Final Score is updating " + finalScore);
     }
-    
+
     
     //UI button to restart game at the end of a game and seeing the highscore panel
     public void RestartGame()
@@ -111,5 +163,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
        
     }
+
+
     
 }

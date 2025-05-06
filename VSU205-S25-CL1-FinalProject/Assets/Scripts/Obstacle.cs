@@ -4,8 +4,8 @@ public class Obstacle : MonoBehaviour
 {
     
     
-    //where to recycle the obstacle
-    private const float Max_X = 10; 
+    //rotate  the bottle 
+    public float rotationSpeed = 100f;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -17,6 +17,6 @@ public class Obstacle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime, Space.Self);
     }
 }

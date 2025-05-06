@@ -4,7 +4,7 @@ using UnityEngine;
 public class ReadInput : MonoBehaviour
 {
 
-
+    
     public TMP_InputField inputField;  // Reference to the TMP_InputField component
     private string input;
     

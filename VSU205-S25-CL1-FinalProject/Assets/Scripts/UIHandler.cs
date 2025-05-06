@@ -30,4 +30,8 @@ public class UIHandler : MonoBehaviour
     }
     
     
+    //TODO: MAKE THE BUTTON BE THE ONE THAT CALLS GET INFO 
+    
+    //TODO: HAVE THE HIGHSCORE LIST BE SHOWN AT THE BEGINNING OF THE GAME
+    
 }
