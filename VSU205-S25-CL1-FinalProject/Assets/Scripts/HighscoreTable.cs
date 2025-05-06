@@ -38,19 +38,15 @@ public class HighscoreTable : MonoBehaviour
             SaveHighscores(new Highscores { highscoreEntryList = new List<HighscoreEntry>() });
         }
 
-        Highscores highscores = LoadHighscores();
+        if (entryContainer == null)
+            entryContainer = transform.Find("highscoreEntryContainer");
+        if (entryTemplate == null)
+            entryTemplate = entryContainer.Find("highscoreEntryTemplate");
+        
+        
+        DisplayHighscores();
 
-        highscores.highscoreEntryList = highscores.highscoreEntryList
-            .OrderByDescending(entry => entry.score)
-            .Take(10)
-            .ToList();
-
-        highscoreEntryTransformList = new List<Transform>();
-        foreach (HighscoreEntry highscoreEntry in highscores.highscoreEntryList)
-        {
-            CreateHighscoreEntryTransform(highscoreEntry, entryContainer, highscoreEntryTransformList);
-            Debug.Log(highscoreEntry.name);
-        }
+        
     }
 
     void Start()
@@ -73,17 +69,17 @@ public class HighscoreTable : MonoBehaviour
         else if (rank == 2) rankString = "2ND";
         else if (rank == 3) rankString = "3RD";
 
-        entryTransform.Find("Position").GetComponent<TMP_Text>().text = rankString;
-        entryTransform.Find("Score").GetComponent<TMP_Text>().text = highscoreEntry.score.ToString();
-        entryTransform.Find("Name").GetComponent<TMP_Text>().text = highscoreEntry.name;
+        entryTransform.Find("posText").GetComponent<TMP_Text>().text = rankString;
+        entryTransform.Find("scoreText").GetComponent<TMP_Text>().text = highscoreEntry.score.ToString();
+        entryTransform.Find("nameText").GetComponent<TMP_Text>().text = highscoreEntry.name;
 
-        entryTransform.Find("Background").gameObject.SetActive(rank % 2 == 1);
+        entryTransform.Find("background").gameObject.SetActive(rank % 2 == 1);
 
         if (rank == 1)
         {
-            entryTransform.Find("Position").GetComponent<TMP_Text>().color = Color.green;
-            entryTransform.Find("Name").GetComponent<TMP_Text>().color = Color.green;
-            entryTransform.Find("Score").GetComponent<TMP_Text>().color = Color.green;
+            entryTransform.Find("posText").GetComponent<TMP_Text>().color = Color.green;
+            entryTransform.Find("nameText").GetComponent<TMP_Text>().color = Color.green;
+            entryTransform.Find("scoreText").GetComponent<TMP_Text>().color = Color.green;
         }
 
         transformList.Add(entryTransform);
@@ -133,16 +129,52 @@ public class HighscoreTable : MonoBehaviour
         Debug.Log("SaveHighscores is being called:" + highscores.highscoreEntryList.Count);
         string json = JsonUtility.ToJson(highscores, true);
         File.WriteAllText(filePath, json);
+        Debug.Log("SaveHighscores:" + json);
 
         ReloadHighscores();
     }
 
     public void ReloadHighscores()
     {
-        LoadHighscores();
+        //LoadHighscores();
         // Debug.Log("SaveHighscores:" + json);
+        
+        //should display highscores in the list 
+        DisplayHighscores();
+        
     }
-    
+
+
+    private void DisplayHighscores()
+    {
+        Highscores highscores = LoadHighscores();
+
+        highscores.highscoreEntryList = highscores.highscoreEntryList
+            .OrderByDescending(entry => entry.score)
+            .Take(10)
+            .ToList();
+
+        //clear old entries 
+        if (highscoreEntryTransformList != null)
+        {
+            foreach (Transform entry in highscoreEntryTransformList)
+            {
+                Destroy(entry.gameObject);
+                Debug.Log("Old entries have been destroyed");
+            }
+        }
+        
+        
+        //populate it 
+        highscoreEntryTransformList = new List<Transform>();
+        foreach (HighscoreEntry highscoreEntry in highscores.highscoreEntryList)
+        {
+            CreateHighscoreEntryTransform(highscoreEntry, entryContainer, highscoreEntryTransformList);
+            Debug.Log(highscoreEntry.name);
+        }
+        
+        
+    }
 
     [System.Serializable]
     private class Highscores

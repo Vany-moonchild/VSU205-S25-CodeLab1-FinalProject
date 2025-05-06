@@ -126,6 +126,11 @@ public class GameManager : MonoBehaviour
         
         Debug.Log("final score: "+ finalScore);
 
+        if (HighscoreTable.instance == null)
+        {
+            Debug.Log("No highscore table found!");
+        }
+
         HighscoreTable.instance.AddHighScoreEntry(finalScore, playerName);
         
         
