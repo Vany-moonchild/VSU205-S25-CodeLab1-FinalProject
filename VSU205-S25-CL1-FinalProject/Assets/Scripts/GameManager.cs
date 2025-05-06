@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour
         //add time/survival score and coin score to the screen
         scoreText.text = "Survival Score: " + survivalScore + " | Coins: " + collectableScore;
 
-        finalScore = survivalScore;
+        finalScore = survivalScore + collectableScore;
         Debug.Log("Final Score is updating " + finalScore);
     }
 
